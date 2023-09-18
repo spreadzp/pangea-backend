@@ -43,11 +43,13 @@ const app = express()
 
 // set CORS headers on response from this API using the `cors` NPM package
 // `CLIENT_ORIGIN` is an environment variable that will be set on Heroku
+console.log('process.env.CLIENT_ORIGIN ', process.env.CLIENT_ORIGIN )
 app.use(
 	cors({
-		origin: ['https://backend-pangea-spread.vercel.app' || process.env.CLIENT_ORIGIN || `http://localhost:${clientDevPort}`] ,
-		methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-		credentials: true,
+		origin: '*'
+		// origin: ['https://med-privacy-spread.vercel.app', `http://localhost:${clientDevPort}` || process.env.CLIENT_ORIGIN  ] ,
+		// methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+		// credentials: true,
 	})
 )
 
@@ -70,14 +72,14 @@ app.use(express.json())
 // this parses requests sent by `$.ajax`, which use a different content type
 app.use(express.urlencoded({ extended: true }))
 // app.use(express.static('public'))
-app.use((req, res, next) => {
-	// Set headers here
-	res.setHeader('Content-Type', 'text/html');
-	res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
+// app.use((req, res, next) => {
+// 	// Set headers here
+// 	res.setHeader('Content-Type', 'text/html');
+// 	res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
 	
-	// Continue to the next middleware or route handler
-	next();
-  });
+// 	// Continue to the next middleware or route handler
+// 	next();
+//   });
 // log each request as it comes in for debugging
 app.use(requestLogger)
 
